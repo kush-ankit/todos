@@ -4,9 +4,6 @@ import Profile from './Components/Profile';
 
 function App() {
 
-
-
-
   return (
     <div className="App md:w-[40%] w-[80%] m-auto flex flex-col p-4 ">
       <header className=' md:outline outline-1 outline-white '>
