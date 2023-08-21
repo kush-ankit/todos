@@ -17,15 +17,20 @@ function TodoList() {
 
     const [inputString, setInputString] = useState('');
 
+    function handleInput(){
+        addTask(inputString);
+        setInputString(null);
+    }
+
 
     return (
         <div>
             <div className='flex flex-grow outline outline-1 rounded-sm overflow-hidden p-2'>
-                <input type="text" className='grow p-2 text-black' value={inputString} onChange={(ev) => (setInputString(ev.target.value))} />
-                <button type='submit' className='p-2 bg-blue-500' onClick={() => (addTask(inputString))}>Submit</button>
+                <input type="text" className='grow p-2 text-black' onChange={(ev) => (setInputString(ev.target.value))} />
+                <button type='submit' className='p-2 bg-blue-500' onClick={handleInput}>Submit</button>
             </div>
             <div className='w-full h-full flex flex-col gap-3 outline outline-1 outline-white p-2'>
-                <div className='font-bold text-xl'>
+                <div className='font-bold text-xl text-red-600'>
                     ActiveList
                 </div>
                 {
@@ -42,7 +47,7 @@ function TodoList() {
                 }
             </div>
             <div className='w-full h-full flex flex-col gap-3 outline outline-1 outline-white p-2'>
-                <div className='font-bold text-xl'>
+                <div className='font-bold text-xl text-green-600'>
                     CompleteList
                 </div>
                 {

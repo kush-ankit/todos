@@ -5,7 +5,7 @@ export const useListTaskStore = create((set, get) => ({
     user: '',
     email: '',
     password: '',
-    activeTaskList: ['hello', 'aba', 'cdcd'],
+    activeTaskList: [],
     completeTaskList: [],
     addTask: (data) => {
         let activeTaskListValue = get().activeTaskList;
@@ -26,10 +26,10 @@ export const useListTaskStore = create((set, get) => ({
         set((state) => ({ activeTaskList: ([...filteredActiveTaskListValue]) }));
     },
     deleteCompleteTask: (taskId) => {
-        let completeTaskListValue = get().completeTask;
+        let completeTaskListValue = get().completeTaskList;
         delete completeTaskListValue[taskId];
         let filteredcompleteTaskListValue = completeTaskListValue.filter(Boolean);
-        set((state) => ({ completeTask: ([...filteredcompleteTaskListValue]) }));
+        set((state) => ({ completeTaskList: ([...filteredcompleteTaskListValue]) }));
     },
 }));
 
