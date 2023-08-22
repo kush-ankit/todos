@@ -36,17 +36,17 @@ import { create } from 'zustand'
 
 export const taskObject = create((set, get) => ({
     input: '',
-    taskNameList: [{ id: new Date().getHours(), task: 'hello', isComplete: false }],
-    addTaskDetails: (taskDetails) => {
-        console.log(taskDetails);
-        set((state) => ({ taskName: get().taskNameList.push(taskDetails) }));
-        let abc = JSON.stringify(get().taskNameList);
-        localStorage.setItem('Abc', abc);
+    taskNameList: [{ id: 73868276482, task: 'hello', iscomplete: true }, JSON.parse(localStorage.getItem("Abc"))],
+    // addTaskDetails: (taskDetails) => {
+    //     console.log(taskDetails);
+    //     set((state) => ({ taskName: get().taskNameList.push(taskDetails) }));
+    //     let abc = JSON.stringify(get().taskNameList);
+    //     localStorage.setItem('Abc', abc);
+    // },
+    setInputValue: (value) => {
+        set({ input: value });
     },
-    setInputValue: (value)=>{
-        set({input: value});
-    },
-    addTask: ()=>{
+    addTask: () => {
         // created a new task object
         const taskDetails = {
             id: new Date().getTime(),
@@ -56,13 +56,29 @@ export const taskObject = create((set, get) => ({
 
         // added the task in the state
         const currentTasks = get().taskNameList;
-        set({ taskNameList: [...currentTasks, taskDetails], input:''});
+        set({ taskNameList: [...currentTasks, taskDetails], input: '' });
 
         // persisted the tasks in localStorage
         let abc = JSON.stringify(get().taskNameList);
         localStorage.setItem('Abc', abc);
+    },
+    deleteTask: (id) => {
+        let taskNameList = get().taskNameList;
+        let index = taskNameList.findIndex((obj) => obj.id === id);
+        delete taskNameList[index];
+        let filterdTsakNameList = taskNameList.filter(Boolean);
+        set({ taskNameList: filterdTsakNameList });
+        let abc = JSON.stringify(get().taskNameList);
+        localStorage.setItem('Abc', abc);
+    },
+    markAsComplete: (index) => {
+        let taskNameList = get().taskNameList;
+        let newTaskNameList = taskNameList[index].iscomplete = true;
+        console.log(newTaskNameList);
+        // set({ taskNameList: });
+        // let abc = JSON.stringify(get().taskNameList);
+        // localStorage.setItem('Abc', abc);
     }
-
 }));
 
 
