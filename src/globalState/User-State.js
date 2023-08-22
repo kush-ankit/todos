@@ -1,85 +1,26 @@
-import { create } from 'zustand'
+import { create } from "zustand"
 
-
-// export const useListTaskStore = create((set, get) => ({
-//     user: '',
-//     email: '',
-//     password: '',
-//     activeTaskList: [],
-//     completeTaskList: [],
-//     addTask: (data) => {
-//         let activeTaskListValue = get().activeTaskList;
-//         set((state) => ({ activeTaskList: ([...activeTaskListValue, data]) }));
-//     },
-//     deleteActiveTask: (taskId) => {
-//         let activeTaskListValue = get().activeTaskList;
-//         delete activeTaskListValue[taskId];
-//         let filteredActiveTaskListValue = activeTaskListValue.filter(Boolean);
-//         set((state) => ({ activeTaskList: ([...filteredActiveTaskListValue]) }));
-//     },
-//     completeTask: (taskId) => {
-//         let activeTaskListValue = get().activeTaskList;
-//         let completeTaskListValue = get().completeTaskList;
-//         set((state) => ({ completeTaskList: ([...completeTaskListValue, activeTaskListValue[taskId]]) }));
-//         delete activeTaskListValue[taskId];
-//         let filteredActiveTaskListValue = activeTaskListValue.filter(Boolean);
-//         set((state) => ({ activeTaskList: ([...filteredActiveTaskListValue]) }));
-//     },
-//     deleteCompleteTask: (taskId) => {
-//         let completeTaskListValue = get().completeTaskList;
-//         delete completeTaskListValue[taskId];
-//         let filteredcompleteTaskListValue = completeTaskListValue.filter(Boolean);
-//         set((state) => ({ completeTaskList: ([...filteredcompleteTaskListValue]) }));
-//     },
-// }));
-
-
-export const taskObject = create((set, get) => ({
-    input: '',
-    taskNameList: [{ id: 73868276482, task: 'hello', iscomplete: true }, JSON.parse(localStorage.getItem("Abc"))],
-    // addTaskDetails: (taskDetails) => {
-    //     console.log(taskDetails);
-    //     set((state) => ({ taskName: get().taskNameList.push(taskDetails) }));
-    //     let abc = JSON.stringify(get().taskNameList);
-    //     localStorage.setItem('Abc', abc);
-    // },
-    setInputValue: (value) => {
-        set({ input: value });
+export const useCreateUser = create((set, get) => ({
+    userName: '',
+    password: '',
+    currentUser: null,
+    users: [],
+    setUserName: (value) => {
+        set({ userName: value });
     },
-    addTask: () => {
-        // created a new task object
-        const taskDetails = {
-            id: new Date().getTime(),
-            task: get().input,
-            iscomplete: false,
+    setPassword: (value) => {
+        set({ password: value });
+    },
+    createUser: () => {
+        let UserObject = {
+            userName: get().userName,
+            password: get().password,
         };
-
-        // added the task in the state
-        const currentTasks = get().taskNameList;
-        set({ taskNameList: [...currentTasks, taskDetails], input: '' });
-
-        // persisted the tasks in localStorage
-        let abc = JSON.stringify(get().taskNameList);
-        localStorage.setItem('Abc', abc);
+        set({ users: UserObject });
     },
-    deleteTask: (id) => {
-        let taskNameList = get().taskNameList;
-        let index = taskNameList.findIndex((obj) => obj.id === id);
-        delete taskNameList[index];
-        let filterdTsakNameList = taskNameList.filter(Boolean);
-        set({ taskNameList: filterdTsakNameList });
-        let abc = JSON.stringify(get().taskNameList);
-        localStorage.setItem('Abc', abc);
+    loginUser: () => {
+        let users = get().users;
+        let userObject = users.find((obj) => obj.userName === get().userName);
+        if (userObject.password === get().password) { set({ currentUser: get().userName }) } else { console.log("user not found") };
     },
-    markAsComplete: (index) => {
-        let taskNameList = get().taskNameList;
-        let newTaskNameList = taskNameList[index].iscomplete = true;
-        console.log(newTaskNameList);
-        // set({ taskNameList: });
-        // let abc = JSON.stringify(get().taskNameList);
-        // localStorage.setItem('Abc', abc);
-    }
 }));
-
-
-
