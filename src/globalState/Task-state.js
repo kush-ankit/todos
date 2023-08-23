@@ -6,8 +6,7 @@ export const taskObject = create((set, get) => ({
     input: '',
     taskNameList: [],
     getLocalStorage: () => {
-        let Value = JSON.parse(localStorage.getItem('Abc'));
-        console.log(Value);
+        let Value = JSON.parse(localStorage.getItem('Tasks'));
         if (Value) {
             set({ taskNameList: Value })
         } else {
@@ -25,14 +24,13 @@ export const taskObject = create((set, get) => ({
             iscomplete: false,
             user: useCreateUser.getState().currentUser
         };
-        console.log(useCreateUser.getState().currentUser);
         // added the task in the state
         const currentTasks = get().taskNameList;
         set({ taskNameList: [...currentTasks, taskDetails], input: '' });
 
         // persisted the tasks in localStorage
         let abc = JSON.stringify(get().taskNameList);
-        localStorage.setItem('Abc', abc);
+        localStorage.setItem('Tasks', abc);
     },
     deleteTask: (id) => {
         let taskNameList = get().taskNameList;
@@ -41,7 +39,7 @@ export const taskObject = create((set, get) => ({
         let filterdTsakNameList = taskNameList.filter(Boolean);
         set({ taskNameList: filterdTsakNameList });
         let abc = JSON.stringify(get().taskNameList);
-        localStorage.setItem('Abc', abc);
+        localStorage.setItem('Tasks', abc);
         get().getLocalStorage();
     },
     markAsComplete: (id) => {
@@ -49,7 +47,7 @@ export const taskObject = create((set, get) => ({
         let index = taskNameList.findIndex((obj) => obj.id === id);
         taskNameList[index].iscomplete = true;
         let abc = JSON.stringify(get().taskNameList);
-        localStorage.setItem('Abc', abc);
+        localStorage.setItem('Tasks', abc);
         get().getLocalStorage();
     }
 }));

@@ -5,6 +5,7 @@ import { taskObject } from '../globalState/Task-state';
 import './TodoList.css';
 // import { useAppStore } from '../globalState/App-state';
 import { useCreateUser } from '../globalState/User-state';
+import SendIcon from '@mui/icons-material/Send';
 
 
 function TodoList() {
@@ -13,10 +14,10 @@ function TodoList() {
 
     const [currentUser] = useCreateUser((state) => [state.currentUser]);
 
-    
+
     let userTaskList = taskNameList.filter((task) => {
         return task.user === currentUser;
-    }).map((task)=>{
+    }).map((task) => {
         return task;
     });
 
@@ -26,11 +27,11 @@ function TodoList() {
 
     return (
         <div>
-            <div className='flex flex-grow outline outline-1 rounded-sm overflow-hidden p-2'>
-                <input type="text" className='grow p-2 text-black' value={input} onChange={(ev) => (setInputValue(ev.target.value))} />
-                <button type='submit' className='p-2 bg-blue-500' onClick={addTask}>Submit</button>
+            <div className='flex flex-grow overflow-hidden p-2'>
+                <input type="text" className='grow p-2 hover:outline-none rounded-xl text-gray-800' value={input} onChange={(ev) => (setInputValue(ev.target.value))} />
+                <button className='p-2  rounded-full px-4' onClick={addTask}><SendIcon /></button>
             </div>
-            <div className='w-full h-full flex flex-col gap-3 outline outline-1 outline-white p-2'>
+            <div className='w-full h-full flex flex-col p-2'>
                 <div className='font-bold text-xl text-red-600'>
                     ActiveList
                 </div>
@@ -39,7 +40,7 @@ function TodoList() {
                         return !iscomplete
                     }).map(({ id, task, iscomplete }, index) => {
                         return (
-                            <div className='listLine flex flex-grow outline outline-1 p-2'>
+                            <div className='listLine flex flex-grow p-1'>
                                 <div className=' grow'>{task}</div>
                                 <button className='text-green-700 flex-none px-2' onClick={() => (markAsComplete(id))}><DoneIcon /></button>
                                 <button className='text-red-700 flex-none px-2' onClick={() => (deleteTask(id))}><DeleteIcon /></button>
@@ -48,7 +49,7 @@ function TodoList() {
                     })
                 }
             </div>
-            <div className='w-full h-full flex flex-col gap-3 outline outline-1 outline-white p-2'>
+            <div className='w-full h-full flex flex-col p-2'>
                 <div className='font-bold text-xl text-green-600'>
                     CompleteList
                 </div>
@@ -57,7 +58,7 @@ function TodoList() {
                         return iscomplete
                     }).map(({ id, task, iscomplete }) => {
                         return (
-                            <div className='listLine flex flex-grow outline outline-1 p-2'>
+                            <div className='listLine flex flex-grow p-1'>
                                 <div className=' grow'>{task}</div>
                                 <button className='text-red-700 flex-none px-2' onClick={() => (deleteTask(id))}><DeleteIcon /></button>
                             </div>
