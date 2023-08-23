@@ -1,4 +1,6 @@
 import { create } from 'zustand'
+import { useCreateUser } from './User-state';
+
 
 export const taskObject = create((set, get) => ({
     input: '',
@@ -6,9 +8,12 @@ export const taskObject = create((set, get) => ({
     getLocalStorage: () => {
         let Value = JSON.parse(localStorage.getItem('Abc'));
         console.log(Value);
-        set({ taskNameList: Value })
+        if (Value) {
+            set({ taskNameList: Value })
+        } else {
+            set({ taskNameList: [] });
+        }
     },
-    // { id: 73868276482, task: 'hello', iscomplete: true }, JSON.parse(localStorage.getItem("Abc"))
     setInputValue: (value) => {
         set({ input: value });
     },
@@ -18,8 +23,9 @@ export const taskObject = create((set, get) => ({
             id: new Date().getTime(),
             task: get().input,
             iscomplete: false,
+            user: useCreateUser.getState().currentUser
         };
-
+        console.log(useCreateUser.getState().currentUser);
         // added the task in the state
         const currentTasks = get().taskNameList;
         set({ taskNameList: [...currentTasks, taskDetails], input: '' });
@@ -36,13 +42,16 @@ export const taskObject = create((set, get) => ({
         set({ taskNameList: filterdTsakNameList });
         let abc = JSON.stringify(get().taskNameList);
         localStorage.setItem('Abc', abc);
+        get().getLocalStorage();
     },
-    markAsComplete: (index) => {
+    markAsComplete: (id) => {
         let taskNameList = get().taskNameList;
-        let newTaskNameList = taskNameList[index].iscomplete = true;
-        console.log(newTaskNameList);
+        let index = taskNameList.findIndex((obj) => obj.id === id);
+        taskNameList[index].iscomplete = true;
+        let abc = JSON.stringify(get().taskNameList);
+        localStorage.setItem('Abc', abc);
+        get().getLocalStorage();
     }
 }));
-
 
 
